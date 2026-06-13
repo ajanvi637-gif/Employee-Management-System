@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Admin Dashboard</title>
+
+        <link rel="stylesheet" href="../css/admin-dashboard.css">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    </head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <body>
+
+        <div class="container">
+
+            <!-- Sidebar -->
+
+            <aside class="sidebar">
+
+                <h2>EMS Admin</h2>
+
+                <ul>
+
+                    <li>
+                        <a href="#dashboard">
+                            <i class="fa-solid fa-chart-line"></i>
+                            Dashboard
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#addEmployee">
+                            <i class="fa-solid fa-user-plus"></i>
+                            Add Employee
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#employeeTable">
+                            <i class="fa-solid fa-users"></i>
+                            Employees
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#assignTask">
+                            <i class="fa-solid fa-list-check"></i>
+                            Assign Task
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="admin-login.html">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            Logout
+                        </a>
+                    </li>
+
+                </ul>
+
+            </aside>
+
+            <!-- Main Content -->
+
+            <main class="main-content">
+
+                <section id="dashboard">
+
+                    <button id="logoutBtn">
+
+                        Logout
+
+                    </button>
+
+                    <h1>Admin Dashboard</h1>
+
+                    <div class="cards">
+
+                        <div class="card">
+                            <h2 id="totalEmployees">0</h2>
+                            <p>Total Employees</p>
+                        </div>
+
+                        <div class="card">
+                            <h2 id="pendingTasks">0</h2>
+                            <p>Pending Tasks</p>
+                        </div>
+
+                        <div class="card">
+                            <h2 id="completedTasks">0</h2>
+                            <p>Completed Tasks</p>
+                        </div>
+
+                        <div class="card">
+                            <h2 id="activeEmployees">0</h2>
+                            <p>Active Employees</p>
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- Add Employee -->
+
+                <section id="addEmployee">
+
+                    <h2>Add Employee</h2>
+                    <form id="employeeForm">
+                        <input type="hidden" id="employeeId">
+
+                        <input id="name" type="text" placeholder="Name">
+
+                        <input id="email" type="email" placeholder="Email">
+
+                        <input id="phone" type="text" placeholder="Phone">
+
+                        <input id="department" type="text" placeholder="Department">
+
+                        <input id="designation" type="text" placeholder="Designation">
+
+                        <input id="username" type="text" placeholder="Username">
+
+                        <input id="password" type="password" placeholder="Password">
+
+                        <button type="submit">
+
+                            Add Employee
+
+                        </button>
+
+                    </form>
+
+                </section>
+
+                <div class="search-container">
+
+                    <input type="text" id="searchEmployee" placeholder="🔍 Search Employee By Name">
+
+                </div>
+                <select id="departmentFilter">
+
+                    <option value="All">
+
+                        All Departments
+
+                    </option>
+
+                    <option value="IT">
+
+                        IT
+
+                    </option>
+
+                    <option value="HR">
+
+                        HR
+
+                    </option>
+
+                    <option value="Sales">
+
+                        Sales
+
+                    </option>
+
+                    <option value="Finance">
+
+                        Finance
+
+                    </option>
+
+                </select>
+
+                <!-- Employee Table -->
+
+                <section id="employeeTable">
+
+                    <h2>Employees</h2>
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Actions</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="employeeBody">
+
+                        </tbody>
+
+                    </table>
+
+                </section>
+
+                <!-- Assign Task -->
+
+                <section id="assignTask">
+
+                    <h2>Assign Task</h2>
+
+                    <form id="taskForm">
+
+                        <input id="employee_id" type="number" placeholder="Employee ID">
+
+                        <input id="task_title" type="text" placeholder="Task Title">
+
+                        <textarea id="task_description" placeholder="Task Description">
+</textarea>
+
+                        <button type="submit">
+
+                            Assign Task
+
+                        </button>
+
+                    </form>
+
+                </section>
+
+            </main>
+
+        </div>
+
+        <script src="../js/admin-dashboard.js"></script>
+
+    </body>
+
+</html>
