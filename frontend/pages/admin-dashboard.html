@@ -17,6 +17,12 @@
 
     <body>
 
+        <div id="loader">
+
+            Loading...
+
+        </div>
+
         <div class="container">
 
             <!-- Sidebar -->
@@ -102,9 +108,77 @@
                             <p>Active Employees</p>
                         </div>
 
+
+                    </div>
+
+                    <div class="chart-card">
+
+                        <h2>
+
+                            Task Analytics
+
+                        </h2>
+
+                        <canvas id="taskChart">
+
+                        </canvas>
+
+                    </div>
+
+                    <div class="company-progress">
+
+                        <h2>
+                            Company Productivity
+                        </h2>
+
+                        <div class="progress-bar">
+
+                            <div id="companyProgress">
+
+                            </div>
+
+                        </div>
+
+                        <p id="companyProgressText">
+
+                            0%
+
+                        </p>
+
+                    </div>
+
+                    <div class="top-employees-card">
+
+                        <h2>
+                            Top Employees
+                        </h2>
+
+                        <ul id="topEmployees">
+
+                        </ul>
+
                     </div>
 
                 </section>
+
+
+
+
+
+                <!--   Recent Employees  -->
+
+                <div class="recent-employees">
+
+                    <h2>
+                        Recent Employees
+                    </h2>
+
+                    <div id="recentEmployees">
+
+                    </div>
+
+                </div>
+
 
                 <!-- Add Employee -->
 
@@ -138,50 +212,108 @@
 
                 </section>
 
-                <div class="search-container">
+                <div class="filter-row">
 
-                    <input type="text" id="searchEmployee" placeholder="🔍 Search Employee By Name">
+                    <div class="search-container">
+
+                        <input type="text" id="searchEmployee" placeholder="🔍 Search Employee">
+
+                    </div>
+
+                    <select id="departmentFilter">
+
+                        <option value="All">
+                            All Departments
+                        </option>
+
+                        <option value="IT">
+                            IT
+                        </option>
+
+                        <option value="HR">
+                            HR
+                        </option>
+
+                        <option value="Sales">
+                            Sales
+                        </option>
+
+                        <option value="Finance">
+                            Finance
+                        </option>
+
+                    </select>
 
                 </div>
-                <select id="departmentFilter">
 
-                    <option value="All">
-
-                        All Departments
-
-                    </option>
-
-                    <option value="IT">
-
-                        IT
-
-                    </option>
-
-                    <option value="HR">
-
-                        HR
-
-                    </option>
-
-                    <option value="Sales">
-
-                        Sales
-
-                    </option>
-
-                    <option value="Finance">
-
-                        Finance
-
-                    </option>
-
-                </select>
 
                 <!-- Employee Table -->
 
                 <section id="employeeTable">
 
-                    <h2>Employees</h2>
+                    <div class="table-actions">
+
+                        <button id="exportCSV">
+
+                            <i class="fa-solid fa-file-csv"></i>
+
+                            Export Employees CSV
+
+                        </button>
+                    </div>
+
+                    <h2>
+
+                        Employees
+
+                        <span class="employee-badge" id="employeeCount">
+
+                            0
+
+                        </span>
+
+                    </h2>
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Tasks</th>
+                                    <th>Actions</th>
+                                    <th>Department</th>
+
+                                    <th>Designation</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="employeeBody">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+
+                <!-- All Tasks -->
+
+                <section id="allTasks">
+
+                    <h2>
+                        All Assigned Tasks
+                    </h2>
 
                     <table>
 
@@ -190,16 +322,15 @@
                             <tr>
 
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Actions</th>
+                                <th>Employee ID</th>
+                                <th>Title</th>
+                                <th>Status</th>
 
                             </tr>
 
                         </thead>
 
-                        <tbody id="employeeBody">
+                        <tbody id="taskBody">
 
                         </tbody>
 
@@ -211,30 +342,54 @@
 
                 <section id="assignTask">
 
-                    <h2>Assign Task</h2>
+                    <div class="assign-task-card">
 
-                    <form id="taskForm">
+                        <h2>Assign Task</h2>
 
-                        <input id="employee_id" type="number" placeholder="Employee ID">
+                        <form id="taskForm">
 
-                        <input id="task_title" type="text" placeholder="Task Title">
+                            <input id="employee_id" type="number" placeholder="Employee ID">
 
-                        <textarea id="task_description" placeholder="Task Description">
+                            <input id="task_title" type="text" placeholder="Task Title">
+
+                            <textarea id="task_description" placeholder="Task Description">
 </textarea>
 
-                        <button type="submit">
+                            <select id="priority">
 
-                            Assign Task
+                                <option value="High">
+                                    High
+                                </option>
 
-                        </button>
+                                <option value="Medium">
+                                    Medium
+                                </option>
 
-                    </form>
+                                <option value="Low">
+                                    Low
+                                </option>
 
+                            </select>
+
+                            <input type="date" id="due_date">
+
+                            <button type="submit">
+
+                                Assign Task
+
+                            </button>
+
+                        </form>
+                    </div>
                 </section>
 
             </main>
 
         </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
         <script src="../js/admin-dashboard.js"></script>
 

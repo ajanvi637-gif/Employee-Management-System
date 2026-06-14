@@ -1,5 +1,5 @@
 const express = require("express");
-const auth =require("../backend/middleware/auth");
+const auth =require("../middleware/auth");
 const router = express.Router();
 
 const {
@@ -11,7 +11,9 @@ const {
     assignTask,
     getEmployeeTasks,
     completeTask,
-    getDashboardStats
+    getDashboardStats,
+    getTopEmployees,
+    getAllTasks
 } = require("../controllers/employeeController");
 
 router.post("/add", addEmployee);
@@ -28,7 +30,6 @@ router.post("/assign-task",assignTask);
 
 router.get(
 "/tasks/:id",
-auth,
 getEmployeeTasks
 );
 
@@ -38,4 +39,15 @@ router.get(
 "/dashboard-stats",
 getDashboardStats
 );
+
+router.get(
+"/top-employees",
+getTopEmployees
+);
+
+router.get(
+"/all-tasks",
+getAllTasks
+);
+
 module.exports = router;

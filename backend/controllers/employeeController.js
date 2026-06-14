@@ -63,18 +63,28 @@ exports.updateEmployee = (req, res) => {
 
 exports.getEmployees = (req, res) => {
 
-    const sql = `
-SELECT
-id,
-name,
-email,
-phone,
-department,
-designation,
-username
-FROM employees
-`;
+const sql = `
 
+SELECT
+
+employees.id,
+employees.name,
+employees.email,
+employees.phone,
+employees.department,
+employees.designation,
+employees.username,
+
+COUNT(tasks.id) AS taskCount
+
+FROM employees
+
+LEFT JOIN tasks
+ON employees.id = tasks.employee_id
+
+GROUP BY employees.id
+
+`;
     db.query(sql, (err, result) => {
 
         if (err) {
@@ -226,47 +236,54 @@ res.status(200).json({
 
 };
 
-exports.assignTask = (req, res) => {
+exports.assignTask = (req,res)=>{
 
-    const {
-        employee_id,
-        task_title,
-        task_description
-    } = req.body;
+const {
 
-    const sql = `
-    INSERT INTO tasks
-    (
-        employee_id,
-        task_title,
-        task_description
-    )
-    VALUES (?, ?, ?)
-    `;
+employee_id,
+task_title,
+task_description,
+priority,
+due_date
 
-    db.query(
-        sql,
-        [
-            employee_id,
-            task_title,
-            task_description
-        ],
-        (err, result) => {
+} = req.body;
 
-            if(err){
-                return res.status(500).json(err);
-            }
+const sql = `
+INSERT INTO tasks
+(
+employee_id,
+task_title,
+task_description,
+priority,
+due_date
+)
+VALUES
+(?,?,?,?,?)
+`;
 
-            res.status(201).json({
-                message:
-                "Task Assigned Successfully"
-            });
+db.query(
+sql,
+[
+employee_id,
+task_title,
+task_description,
+priority,
+due_date
+],
+(err,result)=>{
 
-        }
-    );
+if(err){
+return res.status(500).json(err);
+}
+
+res.status(201).json({
+message:
+"Task Assigned Successfully"
+});
+
+});
 
 };
-
 exports.getEmployeeTasks = (req, res) => {
 
     const employeeId = req.params.id;
@@ -324,6 +341,8 @@ exports.completeTask = (req, res) => {
 
 exports.getDashboardStats = (req, res) => {
 
+
+
     const stats = {};
 
     db.query(
@@ -371,6 +390,75 @@ exports.getDashboardStats = (req, res) => {
         }
     );
 };
+
+exports.getTopEmployees =
+(req,res)=>{
+
+const sql = `
+
+SELECT
+
+e.name,
+
+COUNT(t.id)
+AS completedTasks
+
+FROM employees e
+
+LEFT JOIN tasks t
+ON e.id = t.employee_id
+
+AND t.status='Completed'
+
+GROUP BY e.id
+
+ORDER BY completedTasks DESC
+
+LIMIT 5
+
+`;
+
+db.query(
+sql,
+(err,result)=>{
+
+if(err){
+
+return res
+.status(500)
+.json(err);
+
+}
+
+res
+.status(200)
+.json(result);
+
+});
+};
+
+//__________
+
+exports.getAllTasks = (req,res)=>{
+
+const sql =
+"SELECT * FROM tasks";
+
+db.query(
+sql,
+(err,result)=>{
+
+if(err){
+return res.status(500).json(err);
+}
+
+res.status(200).json(result);
+
+});
+
+};
+
+// ______________
 
 exports.deleteEmployee = (req, res) => {
 

@@ -52,3 +52,16 @@ gsap.from(".category-card", {
     stagger: 0.2,
     delay: 1.5
 });
+
+
+// GSAP Stagger Animation
+
+gsap.from(
+".card",
+{
+y:50,
+opacity:0,
+duration:1,
+stagger:.2
+}
+);

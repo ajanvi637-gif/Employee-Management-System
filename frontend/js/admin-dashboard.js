@@ -1,3 +1,8 @@
+const taskBody =
+document.getElementById(
+"taskBody"
+);
+
 const form =
 document.getElementById("employeeForm");
 
@@ -51,6 +56,37 @@ async function loadDashboardStats() {
         ).innerText =
         stats.activeEmployees;
 
+        const total =
+
+stats.completedTasks +
+stats.pendingTasks;
+
+loadChart(
+stats.pendingTasks,
+stats.completedTasks
+);
+
+const percentage =
+
+total === 0
+?
+0
+:
+Math.round(
+(stats.completedTasks / total)
+*100
+);
+
+document.getElementById(
+"companyProgress"
+).style.width =
+percentage + "%";
+
+document.getElementById(
+"companyProgressText"
+).innerText =
+percentage + "% Completed";
+
     }
 
     catch(error){
@@ -58,6 +94,49 @@ async function loadDashboardStats() {
         console.log(error);
 
     }
+
+}
+
+async function loadTopEmployees(){
+
+const response =
+await fetch(
+"http://localhost:5000/api/employees/top-employees"
+);
+
+const employees =
+await response.json();
+
+const list =
+document.getElementById(
+"topEmployees"
+);
+
+list.innerHTML = "";
+
+employees.forEach(emp=>{
+
+list.innerHTML +=
+
+`
+
+<li>
+
+🏆
+
+${emp.name}
+
+-
+
+${emp.completedTasks}
+
+Tasks
+
+</li>
+
+`;
+
+});
 
 }
 
@@ -78,8 +157,15 @@ async function loadEmployees() {
 
         allEmployees = employees;
 
+        // __________________________
 
         renderEmployees(employees);
+        loadRecentEmployees(employees);
+        loadTopEmployees(employees);
+
+      document.getElementById("employeeCount"
+               ).innerText =
+               employees.length;
 
     }
 
@@ -91,8 +177,127 @@ async function loadEmployees() {
 
 }
 
+
+// ________________________
+
+async function loadTasks(){
+
+const response =
+await fetch(
+"http://localhost:5000/api/employees/all-tasks"
+);
+
+const tasks =
+await response.json();
+
+renderTasks(tasks);
+
+}
+
+// _________________________
+
+function renderTasks(tasks){
+
+taskBody.innerHTML = "";
+
+tasks.forEach(task=>{
+
+taskBody.innerHTML +=
+
+`
+
+<tr>
+
+<td>
+${task.id}
+</td>
+
+<td>
+${task.employee_id}
+</td>
+
+<td>
+${task.task_title}
+</td>
+
+<td>
+${task.status}
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+// ________________________
+
+let taskChart;
+
+function loadChart(
+pending,
+completed
+){
+
+const ctx =
+document.getElementById(
+"taskChart"
+);
+
+if(!ctx) return;
+
+if(taskChart){
+
+taskChart.destroy();
+
+}
+
+taskChart =
+new Chart(ctx, {
+
+type:"doughnut",
+
+data:{
+
+labels:[
+
+"Pending",
+"Completed"
+
+],
+
+datasets:[{
+
+data:[
+
+pending,
+completed
+
+],
+
+backgroundColor:[
+
+"#ff9800",
+"#4caf50"
+
+]
+
+}]
+
+}
+
+});
+
+}
+
+// _________________________
+
+
 loadEmployees();
 loadDashboardStats();
+loadTasks();
 
 
 
@@ -170,10 +375,19 @@ body:JSON.stringify(employeeData)
 
 form.reset();
 
+document.querySelector(
+"#employeeForm button"
+).innerText =
+"Add Employee";
+
 document.getElementById("employeeId").value = "";
 
 loadEmployees();
+
 loadDashboardStats();
+
+loadTasks();
+
 Swal.fire({
     icon: "success",
     title: "Success",
@@ -208,6 +422,7 @@ method:"DELETE"
 
 loadEmployees();
 loadDashboardStats();
+loadTasks();
 Swal.fire({
     icon: "success",
     title: "Deleted",
@@ -254,6 +469,11 @@ employee.designation;
 document.getElementById("username").value =
 employee.username;
 
+document.querySelector(
+"#employeeForm button"
+).innerText =
+"Update Employee";
+
 window.scrollTo({
 top:0,
 behavior:"smooth"
@@ -281,7 +501,13 @@ task_title:
 document.getElementById("task_title").value,
 
 task_description:
-document.getElementById("task_description").value
+document.getElementById("task_description").value,
+
+priority:
+document.getElementById("priority").value,
+
+due_date:
+document.getElementById("due_date").value
 
 };
 
@@ -308,47 +534,188 @@ showConfirmButton:false
 
 taskForm.reset();
 
+loadTasks();
+
+loadDashboardStats();
+
 });
 
 }
 
+// _______________________________________
+
 function renderEmployees(employees){
+
+    document.getElementById(
+"employeeCount"
+).innerText =
+employees.length;
 
     employeeBody.innerHTML = "";
 
     employees.forEach(employee => {
 
-        employeeBody.innerHTML += `
+       employeeBody.innerHTML += `
 
-        <tr>
+<tr>
 
-            <td>${employee.id}</td>
+<td>${employee.id}</td>
 
-            <td>${employee.name}</td>
+<td>${employee.name}</td>
 
-            <td>${employee.email}</td>
+<td>${employee.email}</td>
 
-            <td>${employee.phone}</td>
+<td>${employee.phone}</td>
 
-            <td>
+<td>
+${employee.taskCount || 0}
+</td>
 
-                <button onclick="editEmployee(${employee.id})">
-                    Edit
-                </button>
+<td>
 
-                <button onclick="deleteEmployee(${employee.id})">
-                    Delete
-                </button>
+<button onclick="editEmployee(${employee.id})">
+Edit
+</button>
 
-            </td>
+<button onclick="deleteEmployee(${employee.id})">
+Delete
+</button>
 
-        </tr>
+<button onclick="viewTasks(${employee.id})">
+Tasks
+</button>
 
-        `;
+</td>
 
+<td>
+${employee.department}
+</td>
+
+<td>
+${employee.designation}
+</td>
+
+</tr>
+
+`;
     });
 
 }
+
+// __________________________
+
+function loadTopEmployees(employees){
+
+const container =
+document.getElementById(
+"topEmployees"
+);
+
+if(!container) return;
+
+container.innerHTML = "";
+
+employees
+.slice(0,5)
+.forEach(employee=>{
+
+container.innerHTML +=
+
+`
+<li>
+
+🏆 ${employee.name}
+
+</li>
+`;
+
+});
+
+}
+
+
+// ___________________________
+
+
+async function viewTasks(id){
+
+const response =
+await fetch(
+`http://localhost:5000/api/employees/tasks/${id}`
+);
+
+const tasks =
+await response.json();
+
+let html = "";
+
+tasks.forEach(task=>{
+
+html += `
+
+<div style="
+padding:10px;
+border-bottom:1px solid #ddd;
+">
+
+<h3>${task.task_title}</h3>
+
+<p>${task.task_description}</p>
+
+<p>Status :
+${task.status}
+</p>
+
+</div>
+
+`;
+
+});
+
+Swal.fire({
+
+title:"Employee Tasks",
+
+html:html,
+
+width:"700px"
+
+});
+
+}
+// __________________________
+
+function loadRecentEmployees(employees){
+
+const container =
+document.getElementById(
+"recentEmployees"
+);
+
+if(!container) return;
+
+container.innerHTML = "";
+
+employees
+.slice(-5)
+.reverse()
+.forEach(employee=>{
+
+container.innerHTML +=
+
+`
+<div class="recent-card">
+
+<h4>👤 ${employee.name}</h4>
+<p>🏢 ${employee.department}</p>
+</div>
+`;
+
+});
+
+}
+
+// ____________________________
 
 // SEARCH EMPLOYEE
 
@@ -454,3 +821,104 @@ window.location.href =
 });
 
 });
+
+document
+.getElementById(
+"exportCSV"
+)
+.addEventListener(
+"click",
+function(){
+
+let csv =
+"ID,Name,Email,Phone,Department,Designation,Username\n";
+
+allEmployees.forEach(employee=>{
+
+csv +=
+`${employee.id},
+${employee.name},
+${employee.email},
+${employee.phone},
+${employee.department},
+${employee.designation},
+${employee.username}\n`;
+
+});
+
+const blob =
+new Blob(
+[csv],
+{
+type:"text/csv"
+}
+);
+
+const url =
+window.URL.createObjectURL(
+blob
+);
+
+const a =
+document.createElement("a");
+
+a.href = url;
+
+a.download =
+"employees.csv";
+
+a.click();
+
+});
+
+setInterval(()=>{
+
+loadEmployees();
+
+loadDashboardStats();
+
+},10000);
+
+
+window.addEventListener(
+"load",
+()=>{
+
+setTimeout(()=>{
+
+document.getElementById(
+"loader"
+).style.display =
+"none";
+
+},800);
+
+});
+
+
+
+gsap.from(
+".sidebar",
+{
+x:-100,
+opacity:0,
+duration:1
+}
+);
+
+gsap.from(
+".card",
+{
+opacity:0,
+duration:1,
+stagger:0.2
+}
+);
+
+gsap.from(
+"table",
+{
+opacity:0,
+duration:1.5
+}
+);

@@ -3,7 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const mysql = require("mysql2");
 
-const employeeRoutes = require("./routes/employeeRoutes");
+const employeeRoutes = require("./backend/routes/employeeRoutes");
 
 dotenv.config();
 

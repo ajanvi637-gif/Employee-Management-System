@@ -3,36 +3,366 @@
 
     <head>
 
+        <meta charset="UTF-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <title>Employee Dashboard</title>
 
-        <link rel="stylesheet" href="../css/admin-dashboard.css">
         <link rel="stylesheet" href="../css/employee-dashboard.css">
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
     </head>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <body>
 
-        <div class="main-content">
+        <!-- TOP bar -->
+        <div class="dashboard">
 
-            <button id="employeeLogout">
+            <div class="topbar">
 
-                Logout
+                <h2>
+                    Employee Dashboard
+                </h2>
 
-            </button>
+                <button id="logoutBtn">
+                    Logout
+                </button>
 
-            
-            <h1>Employee Dashboard</h1>
+            </div>
 
-            <div id="profile"></div>
+            <!-- Welcom -->
 
-            <h2>Assigned Tasks</h2>
+            <h1 id="welcomeText">
+                Welcome
+            </h1>
 
-            <div id="tasksContainer">
+            <!-- Employee Header -->
+
+            <div class="employee-header">
+
+                <div class="avatar">
+
+                    <i class="fa-solid fa-user"></i>
+
+                </div>
+
+                <div>
+
+                    <h2 id="employeeName">
+                        Employee
+                    </h2>
+
+                    <p id="employeeDepartment">
+                        Department
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- STATS -->
+
+            <div class="stats">
+
+                <div class="card">
+
+                    <h3>Total Tasks</h3>
+
+                    <h2 id="totalTasks">
+                        0
+                    </h2>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>Pending</h3>
+
+                    <h2 id="pendingTasks">
+                        0
+                    </h2>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>Completed</h3>
+
+                    <h2 id="completedTasks">
+                        0
+                    </h2>
+
+                </div>
+
+            </div>
+
+            <!-- Productivity Meter -->
+
+            <div class="meter-card">
+
+                <h2>
+                    Productivity Meter
+                </h2>
+
+                <div id="meterText">
+
+                    Average
+
+                </div>
+
+            </div>
+
+            <!--Performance Analytics  -->
+
+            <div class="analytics-card">
+
+                <h2>Performance Analytics</h2>
+
+                <div id="performanceText">
+
+                    0% Task Completion Rate
+
+                </div>
+
+                
+
+            </div>
+
+            <!-- Productivity Score -->
+
+            <div class="progress-section">
+
+                <h3>
+                    Productivity Score
+                </h3>
+
+                <div class="progress-bar">
+
+                    <div id="progressFill"></div>
+
+                </div>
+
+                <p id="progressText">
+
+                    0% Completed
+
+                </p>
+
+            </div>
+
+            <!-- Performance Rating-->
+
+            <div class="performance-card">
+
+                <h2>
+                    Performance Rating
+                </h2>
+
+                <div id="performanceRating">
+
+                    Beginner
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Employee Rank -->
+
+            <div class="rank-card">
+
+                <h2>
+                    Employee Rank
+                </h2>
+
+                <div id="employeeRank">
+
+                    Bronze Member
+
+                </div>
+
+            </div>
+
+            <!-- Task Streak -->
+
+            <div class="streak-card">
+
+                <h2>
+                    Task Streak
+                </h2>
+
+                <div id="streakValue">
+
+                    🔥 0 Tasks Completed
+
+                </div>
+
+            </div>
+
+            <!-- Task Streak -->
+
+            <div class="deadline-card">
+
+                <h2>
+                    Upcoming Deadlines
+                </h2>
+
+                <div id="deadlineContainer">
+
+                </div>
+
+            </div>
+
+            <!-- PROFILE -->
+
+            <div class="profile-card">
+
+                <h2>
+                    My Profile
+                </h2>
+
+                <div id="profile">
+
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Employee Level -->
+
+            <div class="level-card">
+
+                <h2>
+                    Employee Level
+                </h2>
+
+                <div id="employeeLevel">
+
+                    Level 1
+
+                </div>
+
+            </div>
+
+            <!--Achievements -->
+
+            <div class="achievement-card">
+
+                <h2>
+                    Achievements
+                </h2>
+
+                <div id="achievementContainer">
+
+                </div>
+
+            </div>
+
+            <!-- Recent Activity -->
+
+            <div class="activity-card">
+
+                <h2>
+                    Recent Activity
+                </h2>
+
+                <div id="activityContainer">
+
+                </div>
+
+            </div>
+
+            <!-- Notifications -->
+
+            <div class="notification-card">
+
+                <h2>
+                    Notifications
+                </h2>
+
+                <div id="notificationContainer">
+
+                </div>
+
+            </div>
+
+            <!--  Quick Actions -->
+
+            <div class="quick-actions">
+
+                <h2>
+                    Quick Actions
+                </h2>
+
+                <div class="action-buttons">
+
+                    <button onclick="scrollToTasks()">
+
+                        📋 View Tasks
+
+                    </button>
+
+                    <button onclick="window.location.reload()">
+
+                        🔄 Refresh
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!--   Daily Motivation-->
+
+            <div class="motivation-card">
+
+                <h2>
+                    Daily Motivation
+                </h2>
+
+                <p id="motivationText">
+
+                    Loading...
+
+                </p>
+
+            </div>
+
+            <!--  Assigned Tasks -->
+
+            <div class="task-card">
+
+                <h2>
+                    Assigned Tasks
+                </h2>
+
+                <input type="text" id="taskSearch" placeholder="Search Tasks...">
+
+                <div id="taskContainer">
+
+                </div>
 
             </div>
 
         </div>
+
+        <!-- Footer -->
+
+        <footer class="dashboard-footer">
+
+            Employee Management System
+
+            © 2026
+
+        </footer>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
         <script src="../js/employee-dashboard.js"></script>
 
