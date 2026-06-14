@@ -10,6 +10,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// IMPORT ROUTES
+const employeeRoutes = require("./backend/routes/employeeRoutes");
+
 // MySQL Connection
 const db = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -29,20 +32,16 @@ db.connect((err) => {
     }
 });
 
+// Make DB available everywhere
+app.locals.db = db;
+
 // Test Route
 app.get("/", (req, res) => {
     res.send("Employee Management System API Running");
 });
 
-// Employee Route
-app.get("/api/employees", (req, res) => {
-    db.query("SELECT * FROM employees", (err, result) => {
-        if (err) {
-            return res.status(500).json(err);
-        }
-        res.json(result);
-    });
-});
+// USE ROUTES
+app.use("/api/employees", employeeRoutes);
 
 const PORT = process.env.PORT || 10000;
 
