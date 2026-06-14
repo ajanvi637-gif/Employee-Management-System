@@ -8,8 +8,7 @@ document.getElementById("employeeLoginForm").addEventListener("submit", async fu
     try {
 
         const response = await fetch(
-            "http://localhost:5000/api/employees/login",
-            {
+"https://employee-management-system-1asj.onrender.com/api/employees/login",            {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -82,7 +81,7 @@ document.getElementById(
 
 const response =
 await fetch(
-"http://localhost:5000/api/employees/login",
+"https://employee-management-system-1asj.onrender.com/api/employees/login",
 {
 method:"POST",
 

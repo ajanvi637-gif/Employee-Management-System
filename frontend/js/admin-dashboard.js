@@ -30,8 +30,7 @@ async function loadDashboardStats() {
 
         const response =
         await fetch(
-        "http://localhost:5000/api/employees/dashboard-stats"
-        );
+"https://employee-management-system-1asj.onrender.com/api/employees/dashboard-stats"        );
 
         const stats =
         await response.json();
@@ -101,7 +100,7 @@ async function loadTopEmployees(){
 
 const response =
 await fetch(
-"http://localhost:5000/api/employees/top-employees"
+"https://employee-management-system-1asj.onrender.com/api/employees/top-employees"
 );
 
 const employees =
@@ -149,8 +148,7 @@ async function loadEmployees() {
 
         const response =
         await fetch(
-        "http://localhost:5000/api/employees/all"
-        );
+"https://employee-management-system-1asj.onrender.com/api/employees/all"        );
 
         const employees =
         await response.json();
@@ -184,8 +182,7 @@ async function loadTasks(){
 
 const response =
 await fetch(
-"http://localhost:5000/api/employees/all-tasks"
-);
+"https://employee-management-system-1asj.onrender.com/api/employees/all-tasks");
 
 const tasks =
 await response.json();
@@ -340,8 +337,7 @@ document.getElementById("employeeId").value;
 if(employeeId){
 
 await fetch(
-`http://localhost:5000/api/employees/update/${employeeId}`,
-{
+`https://employee-management-system-1asj.onrender.com/api/employees/update/${employeeId}`{
 method:"PUT",
 
 headers:{
@@ -357,7 +353,7 @@ body:JSON.stringify(employeeData)
 else{
 
 await fetch(
-"http://localhost:5000/api/employees/add",
+"https://employee-management-system-1asj.onrender.com/api/employees/add"
 {
 method:"POST",
 
@@ -414,7 +410,7 @@ const result = await Swal.fire({
 if (!result.isConfirmed) return;
 
 await fetch(
-`http://localhost:5000/api/employees/delete/${id}`,
+`https://employee-management-system-1asj.onrender.com/api/employees/delete/${id}`
 {
 method:"DELETE"
 }
@@ -437,7 +433,7 @@ async function editEmployee(id){
 
 const response =
 await fetch(
-"http://localhost:5000/api/employees/all"
+"https://employee-management-system-1asj.onrender.com/api/employees/all"
 );
 
 const employees =
@@ -512,7 +508,7 @@ document.getElementById("due_date").value
 };
 
 await fetch(
-"http://localhost:5000/api/employees/assign-task",
+"https://employee-management-system-1asj.onrender.com/api/employees/assign-task"
 {
 method:"POST",
 
@@ -641,7 +637,7 @@ async function viewTasks(id){
 
 const response =
 await fetch(
-`http://localhost:5000/api/employees/tasks/${id}`
+`https://employee-management-system-1asj.onrender.com/api/employees/tasks/${id}`
 );
 
 const tasks =

@@ -430,8 +430,7 @@ async function loadTasks() {
 
         const response =
         await fetch(
-        `http://localhost:5000/api/employees/tasks/${employee.id}`
-        );
+`https://employee-management-system-1asj.onrender.com/api/employees/tasks/${employee.id}`        );
 
         const tasks =
         await response.json();
@@ -725,7 +724,7 @@ async function completeTask(id){
 
 await fetch(
 
-`http://localhost:5000/api/employees/complete-task/${id}`,
+`https://employee-management-system-1asj.onrender.com/api/employees/complete-task/${id}`,
 
 {
 method:"PUT"
