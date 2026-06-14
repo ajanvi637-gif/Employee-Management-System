@@ -58,67 +58,67 @@ document.getElementById("employeeLoginForm").addEventListener("submit", async fu
 
 
 
-const form =
-document.getElementById(
-"employeeLoginForm"
-);
+// const form =
+// document.getElementById(
+// "employeeLoginForm"
+// );
 
-form.addEventListener(
-"submit",
-async function(e){
+// form.addEventListener(
+// "submit",
+// async function(e){
 
-e.preventDefault();
+// e.preventDefault();
 
-const username =
-document.getElementById(
-"username"
-).value;
+// const username =
+// document.getElementById(
+// "username"
+// ).value;
 
-const password =
-document.getElementById(
-"password"
-).value;
+// const password =
+// document.getElementById(
+// "password"
+// ).value;
 
-const response =
-await fetch(
-"https://employee-management-system-1asj.onrender.com/api/employees/login",
-{
-method:"POST",
+// const response =
+// await fetch(
+// "https://employee-management-system-1asj.onrender.com/api/employees/login",
+// {
+// method:"POST",
 
-headers:{
-"Content-Type":"application/json"
-},
+// headers:{
+// "Content-Type":"application/json"
+// },
 
-body:JSON.stringify({
-username,
-password
-})
-}
-);
+// body:JSON.stringify({
+// username,
+// password
+// })
+// }
+// );
 
-const data =
-await response.json();
+// const data =
+// await response.json();
 
-if(response.ok){
+// if(response.ok){
 
-localStorage.setItem(
-"employee",
-JSON.stringify(data.employee)
-);
+// localStorage.setItem(
+// "employee",
+// JSON.stringify(data.employee)
+// );
 
-window.location.href =
-"employee-dashboard.html";
+// window.location.href =
+// "employee-dashboard.html";
 
-}
+// }
 
-else{
+// else{
 
-Swal.fire({
-    icon: "error",
-    title: "Login Failed",
-    text: data.message
-});
+// Swal.fire({
+//     icon: "error",
+//     title: "Login Failed",
+//     text: data.message
+// });
 
-}
+// }
 
-});
+// });
